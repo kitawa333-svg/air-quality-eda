@@ -18,7 +18,7 @@ df_clean['Date'] = pd.to_datetime(df_clean['Date'])
 try:
     model = pickle.load(open("models/model.pkl", "rb"))
     st.success("✅ Model loaded successfully!")
-except: FileNotFoundError:
+except FileNotFoundError:
     st.warning("⚠️ Model file not found. Using placeholder.")
     from sklearn.linear_model import LinearRegression
     model = LinearRegression()
