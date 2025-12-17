@@ -1,4 +1,4 @@
-# 🇮🇳 Indian Air Quality Analysis Dashboard
+# Indian Air Quality Analysis Dashboard
 
 ## 📌 Project Overview
 This project analyses air quality data across major Indian cities (2015–2019).
