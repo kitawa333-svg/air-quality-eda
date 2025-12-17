@@ -9,6 +9,12 @@ import numpy as np
 import folium
 from streamlit_folium import st_folium
 
+# Load cleaned data
+df_clean = pd.read_csv("data/cleaned_air_quality.csv")
+
+# Convert Date column to datetime (MANDATORY for .dt and .strftime)
+df_clean['Date'] = pd.to_datetime(df_clean['Date'])
+
 # City coordinates (static spatial reference used for mapping)
 location_data = pd.DataFrame({
     'lon': [72.5714, 92.7176, 80.6480, 74.8723, 77.5946, 77.4126, 83.9206, 76.7794,
@@ -26,12 +32,6 @@ location_data = pd.DataFrame({
                  'Shillong', 'Talcher', 'Thiruvananthapuram', 'Visakhapatnam']})
 
 st.write(df_clean.columns)
-
-# Load cleaned data
-df_clean = pd.read_csv("data/cleaned_air_quality.csv")
-
-# Convert Date column to datetime (MANDATORY for .dt and .strftime)
-df_clean['Date'] = pd.to_datetime(df_clean['Date'])
 
 
 # Load trained model (with error handling)
