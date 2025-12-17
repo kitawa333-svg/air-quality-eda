@@ -1,5 +1,4 @@
 # Make the Streamlit app file - this creates air_quality_app.py
-%%writefile air_quality_app.py
 
 import streamlit as st
 import pandas as pd
@@ -9,7 +8,7 @@ import pickle  # For loading the trained model
 import numpy as np
 
 # Load cleaned data
-df_clean = pd.read_csv('/content/drive/MyDrive/Indian air quality/cleaned_air_quality.csv')
+df_clean = pd.read_csv("data/cleaned_air_quality.csv")
 
 # Convert Date column to datetime (MANDATORY for .dt and .strftime)
 df_clean['Date'] = pd.to_datetime(df_clean['Date'])
@@ -18,9 +17,9 @@ df_clean['Date'] = pd.to_datetime(df_clean['Date'])
 # Load trained model (with error handling)
 try:
     model = pickle.load(open("models/model.pkl", "rb"))
-    print("✅ Model loaded successfully!")
-except:
-    print("⚠️ Model file not found. Using placeholder.")
+    st.success("✅ Model loaded successfully!")
+except: FileNotFoundError:
+    st.warning("⚠️ Model file not found. Using placeholder.")
     from sklearn.linear_model import LinearRegression
     model = LinearRegression()
     # Train with dummy data
@@ -29,7 +28,7 @@ except:
     model.fit(X_dummy, y_dummy)
 
 #setting the title of the application
-st.title('🇮🇳 Indian Air Quality Analysis Dashboard 🌫️')
+st.title('Indian Air Quality Analysis Dashboard 🌫️')
 st.write('Explore air quality patterns across 26 Indian cities (2015-2019) 📊')
 
 # Sidebar navigation
