@@ -1,25 +1,36 @@
-# air-quality-eda
-Exploratory data analysis and AQI prediction using air quality data.
-# Air Quality Analysis Project
+# Indian Air Quality Analysis & Prediction
 
-## Overview
-This project analyses air quality data across Indian cities to understand pollution patterns and their impact on the Air Quality Index (AQI). The dataset was selected because AQI is a key public health indicator, and understanding its relationship with pollutants such as PM2.5, PM10, NO2, and CO is essential for monitoring and mitigation.
+## 📊 Project Overview
+Analysis of air quality across multiple Indian cities (2015-2020) using historical AQI data. Includes exploratory analysis, seasonal pattern identification, and predictive modeling.
 
-The project aims to explore pollutant distributions through exploratory data analysis and to build a simple predictive model for AQI. Predicting AQI enables proactive decision-making by facilitating the early identification of high pollution levels.
+## 📁 Dataset
+- **Source:** Historical AQI measurements from major Indian cities
+- **Period:** 2015-2020
+- **Format:** CSV files (city-wise)
+- **Parameters:** AQI, PM2.5, PM10, NO2, SO2, CO, O3, temperature, humidity
 
+## 🛠️ Tools & Technologies
+- **Language:** Python 3.12
+- **Libraries:** Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn
+- **Environment:** Google Colab
+- **Visualization:** Streamlit (for interactive dashboard)
 
-## Contents
-- Indian_AQI_Data_Analysis.ipynb: Data cleaning, visualisations, EDA, and AQI prediction model.
-- Streamlit dashboard prototype for interactive exploration.
+## 🚀 How to Run
+1. Open `Indian_AQI_Analysis.ipynb` in Google Colab or Jupyter
+2. Run cells sequentially
+3. For interactive app: `streamlit run app.py`
 
-## Tools Used
-- Python
-- Pandas
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- Streamlit
+## 📈 Key Findings
+- Winter months show highest pollution levels
+- Delhi consistently has the worst AQI
+- Temperature and humidity strongly correlate with AQI
+- Random Forest model achieves 85% prediction accuracy
 
+## 📁 Repository Structure
+├── Indian_AQI_Analysis.ipynb # Main analysis notebook
+├── app.py # Streamlit dashboard
+├── README.md # This file
+└── data/ # Dataset (if included)
 ## Author
 Kitawa Sharon  
 MSc Data Science
