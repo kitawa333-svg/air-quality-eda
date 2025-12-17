@@ -46,8 +46,7 @@ if page == '📋 Data Overview':
     with col2:
         st.metric("🏙️ Number of Cities", df_clean['City'].nunique())
     with col3:
-        st.metric("📅 Date Range", f"{df_clean['Date'].min().date()} to {df_clean['Date'].max().date()}")
-
+         st.metric("📅 Date Range", f"{df_clean['Date'].min().strftime('%Y-%m-%d')} → {df_clean['Date'].max().strftime('%Y-%m-%d')}")
     # Data preview
     st.subheader('👀 Data Preview')
     st.dataframe(df_clean.head(10))
