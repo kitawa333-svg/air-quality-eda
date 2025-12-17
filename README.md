@@ -1,38 +1,33 @@
-# Indian Air Quality Data Analysis and AQI Prediction
+# 🇮🇳 Indian Air Quality Analysis Dashboard
 
-## Project Overview
-This project analyses air quality data from multiple Indian cities (2015–2019) to understand pollution patterns, seasonal trends, and the relationship between major pollutants and the Air Quality Index (AQI).
+## 📌 Project Overview
+This project analyses air quality data across major Indian cities (2015–2019).
+It includes exploratory data analysis (EDA) and an interactive Streamlit dashboard.
 
-The project includes exploratory data analysis (EDA), data cleaning, visualisation, and a multiple linear regression model to predict AQI based on key pollutants.
+## 📊 Dataset
+- Source: Indian Air Quality Dataset
+- Period: 2015–2019
+- Cities: 26 Indian cities
+- Variables: PM2.5, PM10, NO2, CO, SO2, O3, AQI
 
-## Dataset
-- Daily air quality data from 26 Indian cities
-- Time period: 2015–2019
-- Key variables: AQI, PM2.5, PM10, NO2, CO, SO2, O3
-- Data source: Indian air quality monitoring records (provided via course dataset)
+## 🧹 Data Cleaning
+- Converted Date column to datetime
+- Handled missing values
+- Removed inconsistent records
 
-## Objectives
-- Explore spatial and seasonal air pollution patterns
-- Identify pollutants most strongly associated with AQI
-- Build a regression model to predict AQI
-- Communicate insights through visualisations
+## 📈 Exploratory Analysis
+- AQI distribution
+- Pollutant vs AQI relationships
+- City-wise and seasonal trends
+- Correlation heatmap
 
-## Tools Used
-- Python
-- Pandas, NumPy
-- Matplotlib, Seaborn
-- Scikit-learn
-- Streamlit (prototype dashboard)
+## 🔮 AQI Prediction
+A machine learning model predicts AQI based on pollutant levels.
 
-## Repository Structure
-- `Indian AQI Data Analysis PRAC1ass.ipynb` – main analysis notebook
-- `app.py` – Streamlit application (prototype)
-- `README.md` – project documentation
-
-## How to Run
-1. Open the notebook in Google Colab
-2. Run cells in order
-3. (Optional) Run the Streamlit app locally using:
+## 🖥️ How to Run the App
+```bash
+pip install -r requirements.txt
+streamlit run air_quality_app.py
 
 ## Author
 Kitawa Sharon  
