@@ -1,3 +1,6 @@
+# Make the Streamlit app file - this creates air_quality_app.py
+%%writefile air_quality_app.py
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,7 +17,7 @@ df_clean['Date'] = pd.to_datetime(df_clean['Date'])
 
 # Load trained model (with error handling)
 try:
-    model = pickle.load(open('/content/drive/MyDrive/Indian air quality/model.pkl', 'rb'))
+    model = pickle.load(open("models/model.pkl", "rb"))
     print("✅ Model loaded successfully!")
 except:
     print("⚠️ Model file not found. Using placeholder.")
@@ -207,3 +210,4 @@ st.sidebar.info('🛠️ **Built with:** Python, Streamlit, Pandas, Matplotlib')
 st.sidebar.info('🎯 **Purpose:** Academic project - Air Quality Analysis')
 
 st.sidebar.success("✅ Model loaded successfully")
+
