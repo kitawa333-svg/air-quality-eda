@@ -9,6 +9,24 @@ import numpy as np
 import folium
 from streamlit_folium import st_folium
 
+# City coordinates (static spatial reference used for mapping)
+location_data = pd.DataFrame({
+    'lon': [72.5714, 92.7176, 80.6480, 74.8723, 77.5946, 77.4126, 83.9206, 76.7794,
+            80.2707, 76.9558, 77.1025, 76.2673, 77.0266, 91.7362, 78.4867, 75.7873,
+            86.3833, 76.2673, 88.3639, 80.9462, 72.8777, 85.1376, 91.8933, 85.1836,
+            76.9366, 83.2185],
+    'lat': [23.0225, 23.7271, 16.5062, 31.6340, 12.9716, 23.2599, 21.8248, 30.7333,
+            13.0827, 11.0168, 28.7041, 9.9312, 28.4595, 26.1445, 17.3850, 26.9124,
+            23.7167, 9.9312, 22.5726, 26.8467, 19.0760, 25.5941, 25.5788, 20.9495,
+            8.5241, 17.6868],
+    'location': ['Ahmedabad', 'Aizawl', 'Amaravati', 'Amritsar', 'Bengaluru', 'Bhopal',
+                 'Brajrajnagar', 'Chandigarh', 'Chennai', 'Coimbatore', 'Delhi',
+                 'Ernakulam', 'Gurugram', 'Guwahati', 'Hyderabad', 'Jaipur',
+                 'Jorapokhar', 'Kochi', 'Kolkata', 'Lucknow', 'Mumbai', 'Patna',
+                 'Shillong', 'Talcher', 'Thiruvananthapuram', 'Visakhapatnam']})
+
+st.write(df_clean.columns)
+
 # Load cleaned data
 df_clean = pd.read_csv("data/cleaned_air_quality.csv")
 
