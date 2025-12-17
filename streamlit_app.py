@@ -172,18 +172,18 @@ st.caption('📍 Interactive map showing the geographic distribution of Indian c
 # 7. Top 10 most polluted cities
 st.subheader('🏆 Top 10 Most Polluted Cities')
 
-    # Calculate city averages
-    city_avg_aqi = df_clean.groupby('City')['AQI'].mean().sort_values(ascending=False)
+ # Calculate city averages
+  city_avg_aqi = df_clean.groupby('City')['AQI'].mean().sort_values(ascending=False)
 
-    fig = plt.figure(figsize=(10, 6))
-    city_avg_aqi.head(10).plot(kind='bar', color='mediumorchid', edgecolor='purple')
-    plt.xlabel('City 🏙️')
-    plt.ylabel('Average AQI 📊')
-    plt.title('Top 10 Cities by Average AQI 🏆')
-    plt.xticks(rotation=45)
-    plt.grid(True, alpha=0.3, axis='y')
-    st.pyplot(fig)
-    st.caption('📌 Delhi consistently shows the worst air quality among Indian cities')
+ fig = plt.figure(figsize=(10, 6))
+ city_avg_aqi.head(10).plot(kind='bar', color='mediumorchid', edgecolor='purple')
+ plt.xlabel('City 🏙️')
+ plt.ylabel('Average AQI 📊')
+ plt.title('Top 10 Cities by Average AQI 🏆')
+ plt.xticks(rotation=45)
+ plt.grid(True, alpha=0.3, axis='y')
+ st.pyplot(fig)
+ st.caption('📌 Delhi consistently shows the worst air quality among Indian cities')
 
 
 #  predictions page
