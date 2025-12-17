@@ -131,10 +131,9 @@ if page == '📊 Exploratory Analysis':
     st.pyplot(fig)
     st.caption('📌 Winter months typically show worse air quality due to temperature inversions')
 
-    # 5. Correlation heatmap
+# 5. Correlation heatmap
     st.subheader('🔥 Correlation Heatmap')
 
-    # Calculate correlation matrix
     corr_matrix = df_clean[['PM2.5', 'PM10', 'NO2', 'CO', 'SO2', 'O3', 'AQI']].corr()
 
     fig = plt.figure(figsize=(10, 8))
@@ -142,48 +141,49 @@ if page == '📊 Exploratory Analysis':
     plt.title('Pollutant Correlations with AQI 🔗')
     st.pyplot(fig)
     st.caption('📌 Red cells show strong positive correlations, blue shows negative')
-    
+
     # 6. Spatial distribution map
     st.subheader('🗺️ Spatial Distribution of Cities')
-    
-    # Create map centered on India
+
     m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
-    
-    # Pink / purple theme
+
     colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
-    
-    # Prepare location data
+
     location_data = df_clean[['City', 'Latitude', 'Longitude']].dropna()
     location_data.columns = ['location', 'lat', 'lon']
-    
-    # Add markers
+
     for index, row in location_data.iterrows():
         folium.Marker(
             [row['lat'], row['lon']],
             tooltip=row['location'],
             icon=folium.Icon(color=colors[index % len(colors)])
         ).add_to(m)
-    
-    # Render map in Streamlit
+
     st_folium(m, width=700, height=500)
-    
-    st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
+    st.caption('📍 Interactive map showing the geographic distribution of Indian cities')
 
     # 7. Top 10 most polluted cities
     st.subheader('🏆 Top 10 Most Polluted Cities')
 
-     # Calculate city averages
-      city_avg_aqi = df_clean.groupby('City')['AQI'].mean().sort_values(ascending=False)
-    
-     fig = plt.figure(figsize=(10, 6))
-     city_avg_aqi.head(10).plot(kind='bar', color='mediumorchid', edgecolor='purple')
-     plt.xlabel('City 🏙️')
-     plt.ylabel('Average AQI 📊')
-     plt.title('Top 10 Cities by Average AQI 🏆')
-     plt.xticks(rotation=45)
-     plt.grid(True, alpha=0.3, axis='y')
-     st.pyplot(fig)
-     st.caption('📌 Delhi consistently shows the worst air quality among Indian cities')
+    city_avg_aqi = (
+        df_clean.groupby('City')['AQI']
+        .mean()
+        .sort_values(ascending=False)
+    )
+
+    fig = plt.figure(figsize=(10, 6))
+    city_avg_aqi.head(10).plot(
+        kind='bar',
+        color='mediumorchid',
+        edgecolor='purple'
+    )
+    plt.xlabel('City 🏙️')
+    plt.ylabel('Average AQI 📊')
+    plt.title('Top 10 Cities by Average AQI 🏆')
+    plt.xticks(rotation=45)
+    plt.grid(True, alpha=0.3, axis='y')
+    st.pyplot(fig)
+    st.caption('📌 Delhi consistently shows the worst air quality among Indian cities')
 
 
 #  predictions page
