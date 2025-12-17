@@ -40,7 +40,7 @@ if page == '📋 Data Overview':
     st.header('📋 Dataset Overview')
 
     # Key metrics
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns([1, 1, 2])  # 👈 make Date Range column wider
     with col1:
         st.metric("📄 Total Records", len(df_clean))
     with col2:
