@@ -169,7 +169,6 @@ st_folium(m, width=700, height=500)
 
 st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
 
-
     # 7. Top 10 most polluted cities
     st.subheader('🏆 Top 10 Most Polluted Cities')
 
