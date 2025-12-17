@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle  # For loading the trained model
 import numpy as np
+import folium
+from streamlit_folium import st_folium
 
 # Load cleaned data
 df_clean = pd.read_csv("data/cleaned_air_quality.csv")
@@ -140,8 +142,35 @@ if page == '📊 Exploratory Analysis':
     plt.title('Pollutant Correlations with AQI 🔗')
     st.pyplot(fig)
     st.caption('📌 Red cells show strong positive correlations, blue shows negative')
+    
+    # 6. Spatial distribution map
+st.subheader('🗺️ Spatial Distribution of Cities')
 
-    # 6. Top 10 most polluted cities
+# Create map centered on India
+m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
+
+# Pink / purple theme
+colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
+
+# Prepare location data
+location_data = df_clean[['City', 'Latitude', 'Longitude']].dropna()
+location_data.columns = ['location', 'lat', 'lon']
+
+# Add markers
+for index, row in location_data.iterrows():
+    folium.Marker(
+        [row['lat'], row['lon']],
+        tooltip=row['location'],
+        icon=folium.Icon(color=colors[index % len(colors)])
+    ).add_to(m)
+
+# Render map in Streamlit
+st_folium(m, width=700, height=500)
+
+st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
+
+
+    # 7. Top 10 most polluted cities
     st.subheader('🏆 Top 10 Most Polluted Cities')
 
     # Calculate city averages
