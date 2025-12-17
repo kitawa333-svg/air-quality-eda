@@ -31,8 +31,6 @@ location_data = pd.DataFrame({
                  'Jorapokhar', 'Kochi', 'Kolkata', 'Lucknow', 'Mumbai', 'Patna',
                  'Shillong', 'Talcher', 'Thiruvananthapuram', 'Visakhapatnam']})
 
-st.write(df_clean.columns)
-
 
 # Load trained model (with error handling)
 try:
@@ -160,15 +158,12 @@ if page == '📊 Exploratory Analysis':
     st.pyplot(fig)
     st.caption('📌 Red cells show strong positive correlations, blue shows negative')
 
-    # 6. Spatial distribution map
+     # 6. Spatial distribution map
     st.subheader('🗺️ Spatial Distribution of Cities')
 
     m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
 
     colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
-
-    location_data = df_clean[['City', 'Latitude', 'Longitude']].dropna()
-    location_data.columns = ['location', 'lat', 'lon']
 
     for index, row in location_data.iterrows():
         folium.Marker(
@@ -178,7 +173,7 @@ if page == '📊 Exploratory Analysis':
         ).add_to(m)
 
     st_folium(m, width=700, height=500)
-    st.caption('📍 Interactive map showing the geographic distribution of Indian cities')
+    st.caption('📍 Interactive map showing geographic distribution of Indian cities')
 
     # 7. Top 10 most polluted cities
     st.subheader('🏆 Top 10 Most Polluted Cities')
@@ -190,11 +185,7 @@ if page == '📊 Exploratory Analysis':
     )
 
     fig = plt.figure(figsize=(10, 6))
-    city_avg_aqi.head(10).plot(
-        kind='bar',
-        color='mediumorchid',
-        edgecolor='purple'
-    )
+    city_avg_aqi.head(10).plot(kind='bar', color='mediumorchid', edgecolor='purple')
     plt.xlabel('City 🏙️')
     plt.ylabel('Average AQI 📊')
     plt.title('Top 10 Cities by Average AQI 🏆')
@@ -202,7 +193,6 @@ if page == '📊 Exploratory Analysis':
     plt.grid(True, alpha=0.3, axis='y')
     st.pyplot(fig)
     st.caption('📌 Delhi consistently shows the worst air quality among Indian cities')
-
 
 #  predictions page
 if page == '🔮 AQI Prediction':
