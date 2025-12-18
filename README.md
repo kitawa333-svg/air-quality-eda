@@ -1,28 +1,28 @@
 # Indian Air Quality Analysis Dashboard
 
 ## 📌 Project Overview
-This project analyses air quality data across major Indian cities (2015–2019).
-It includes exploratory data analysis (EDA) and an interactive Streamlit dashboard.
+This project analyses air quality data across major Indian cities between **2015 and 2019**.  
+It combines **exploratory data analysis (EDA)** with an **interactive Streamlit dashboard** to identify pollution patterns and key drivers of air quality.
 
 ## 📊 Dataset
-- Source: Indian Air Quality Dataset
-- Period: 2015–2019
-- Cities: 26 Indian cities
-- Variables: PM2.5, PM10, NO2, CO, SO2, O3, AQI
+- **Source:** Indian Air Quality Dataset  
+- **Period:** 2015–2019  
+- **Coverage:** 26 Indian cities  
+- **Key Variables:** PM2.5, PM10, NO2, CO, SO2, O3, AQI  
 
 ## 🧹 Data Cleaning
-- Converted Date column to datetime
-- Handled missing values
-- Removed inconsistent records
+- Converted the **Date** column to datetime format  
+- Addressed missing values in pollutant measurements  
+- Removed inconsistent or invalid records to ensure data quality  
 
-## 📈 Exploratory Analysis
-- AQI distribution
-- Pollutant vs AQI relationships
-- City-wise and seasonal trends
-- Correlation heatmap
+## 📈 Exploratory Data Analysis
+- Distribution of AQI values  
+- Relationships between pollutants and AQI  
+- City-wise comparisons and seasonal trends  
+- Correlation analysis using a heatmap  
 
 ## 🔮 AQI Prediction
-A machine learning model predicts AQI based on pollutant levels.
+A regression-based machine learning model was developed to **predict AQI values** using pollutant concentrations, demonstrating the impact of key pollutants on air quality.
 
 ## 🖥️ How to Run the App
 ```bash
