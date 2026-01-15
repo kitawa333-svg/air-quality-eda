@@ -165,7 +165,7 @@ m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
 
 colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
 
-    for index, row in location_data.iterrows():
+for index, row in location_data.iterrows():
         folium.Marker(
             [float(row['lat']), float(row['lon'])],
             tooltip=row['location'],
