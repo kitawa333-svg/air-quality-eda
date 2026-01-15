@@ -1,4 +1,5 @@
 # Make the Streamlit app file - this creates air_quality_app.py
+%%writefile air_quality_app.py
 
 import streamlit as st
 import pandas as pd
@@ -8,36 +9,23 @@ import pickle  # For loading the trained model
 import numpy as np
 import folium
 from streamlit_folium import st_folium
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+with open("models/model.pkl", "rb") as f:model = pickle.load(f) #loads trained ML model
 
 # Load cleaned data
-df_clean = pd.read_csv("data/cleaned_air_quality.csv")
+df_clean = pd.read_csv('/content/drive/MyDrive/Indian air quality/cleaned_air_quality.csv')
 
 # Convert Date column to datetime (MANDATORY for .dt and .strftime)
 df_clean['Date'] = pd.to_datetime(df_clean['Date'])
-
-# City coordinates (static spatial reference used for mapping)
-location_data = pd.DataFrame({
-    'lon': [72.5714, 92.7176, 80.6480, 74.8723, 77.5946, 77.4126, 83.9206, 76.7794,
-            80.2707, 76.9558, 77.1025, 76.2673, 77.0266, 91.7362, 78.4867, 75.7873,
-            86.3833, 76.2673, 88.3639, 80.9462, 72.8777, 85.1376, 91.8933, 85.1836,
-            76.9366, 83.2185],
-    'lat': [23.0225, 23.7271, 16.5062, 31.6340, 12.9716, 23.2599, 21.8248, 30.7333,
-            13.0827, 11.0168, 28.7041, 9.9312, 28.4595, 26.1445, 17.3850, 26.9124,
-            23.7167, 9.9312, 22.5726, 26.8467, 19.0760, 25.5941, 25.5788, 20.9495,
-            8.5241, 17.6868],
-    'location': ['Ahmedabad', 'Aizawl', 'Amaravati', 'Amritsar', 'Bengaluru', 'Bhopal',
-                 'Brajrajnagar', 'Chandigarh', 'Chennai', 'Coimbatore', 'Delhi',
-                 'Ernakulam', 'Gurugram', 'Guwahati', 'Hyderabad', 'Jaipur',
-                 'Jorapokhar', 'Kochi', 'Kolkata', 'Lucknow', 'Mumbai', 'Patna',
-                 'Shillong', 'Talcher', 'Thiruvananthapuram', 'Visakhapatnam']})
 
 
 # Load trained model (with error handling)
 try:
     model = pickle.load(open("models/model.pkl", "rb"))
-    st.success("✅ Model loaded successfully!")
-except FileNotFoundError:
-    st.warning("⚠️ Model file not found. Using placeholder.")
+    print("✅ Model loaded successfully!")
+except:
+    print("⚠️ Model file not found. Using placeholder.")
     from sklearn.linear_model import LinearRegression
     model = LinearRegression()
     # Train with dummy data
@@ -46,25 +34,25 @@ except FileNotFoundError:
     model.fit(X_dummy, y_dummy)
 
 #setting the title of the application
-st.title('Indian Air Quality Analysis Dashboard 🌫️')
+st.title('🇮🇳 Indian Air Quality Analysis Dashboard 🌫️')
 st.write('Explore air quality patterns across 26 Indian cities (2015-2019) 📊')
 
 # Sidebar navigation
 st.sidebar.title('📍 Navigation')
-page = st.sidebar.selectbox('Select a page', ['📋 Data Overview', '📊 Exploratory Analysis', '🔮 AQI Prediction'])
+page = st.sidebar.selectbox('Select a page', ['📋 Data Overview', '📊 Exploratory Analysis', '📈 Model Performance', '🔮 AQI Prediction'])
 
 # Content for Data Overview page - ONLY ONE BLOCK!
 if page == '📋 Data Overview':
     st.header('📋 Dataset Overview')
 
     # Key metrics
-    col1, col2, col3 = st.columns([1, 1, 2])  # 👈 make Date Range column wider
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("📄 Total Records", len(df_clean))
     with col2:
         st.metric("🏙️ Number of Cities", df_clean['City'].nunique())
     with col3:
-         st.metric("📅 Date Range", f"{df_clean['Date'].min().strftime('%Y-%m')} → {df_clean['Date'].max().strftime('%Y-%m')}")
+        st.metric("📅 Date Range", f"{df_clean['Date'].min().date()} to {df_clean['Date'].max().date()}")
 
     # Data preview
     st.subheader('👀 Data Preview')
@@ -147,9 +135,10 @@ if page == '📊 Exploratory Analysis':
     st.pyplot(fig)
     st.caption('📌 Winter months typically show worse air quality due to temperature inversions')
 
-# 5. Correlation heatmap
+    # 5. Correlation heatmap
     st.subheader('🔥 Correlation Heatmap')
 
+    # Calculate correlation matrix
     corr_matrix = df_clean[['PM2.5', 'PM10', 'NO2', 'CO', 'SO2', 'O3', 'AQI']].corr()
 
     fig = plt.figure(figsize=(10, 8))
@@ -158,7 +147,7 @@ if page == '📊 Exploratory Analysis':
     st.pyplot(fig)
     st.caption('📌 Red cells show strong positive correlations, blue shows negative')
 
-     # 6. Spatial distribution map
+    # 6. Spatial distribution map
     st.subheader('🗺️ Spatial Distribution of Cities')
 
     m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
@@ -167,22 +156,20 @@ if page == '📊 Exploratory Analysis':
 
     for index, row in location_data.iterrows():
         folium.Marker(
-            [row['lat'], row['lon']],
+            [float(row['lat']), float(row['lon'])],
             tooltip=row['location'],
             icon=folium.Icon(color=colors[index % len(colors)])
         ).add_to(m)
 
     st_folium(m, width=700, height=500)
-    st.caption('📍 Interactive map showing geographic distribution of Indian cities')
+    st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
+
 
     # 7. Top 10 most polluted cities
     st.subheader('🏆 Top 10 Most Polluted Cities')
 
-    city_avg_aqi = (
-        df_clean.groupby('City')['AQI']
-        .mean()
-        .sort_values(ascending=False)
-    )
+    # Calculate city averages
+    city_avg_aqi = df_clean.groupby('City')['AQI'].mean().sort_values(ascending=False)
 
     fig = plt.figure(figsize=(10, 6))
     city_avg_aqi.head(10).plot(kind='bar', color='mediumorchid', edgecolor='purple')
@@ -193,6 +180,94 @@ if page == '📊 Exploratory Analysis':
     plt.grid(True, alpha=0.3, axis='y')
     st.pyplot(fig)
     st.caption('📌 Delhi consistently shows the worst air quality among Indian cities')
+    
+
+if page == '📈 Model Performance':
+    st.header('📈 Model Performance Evaluation')
+    st.write('This section evaluates how well the regression model predicts AQI using test data.')
+
+    # Prepare clean modelling dataset (same features used in notebook)
+    features = ['PM2.5', 'PM10', 'NO2', 'CO']
+    target = 'AQI'
+
+    df_model = df_clean.dropna(subset=features + [target])
+
+    X = df_model[features]
+    y = df_model[target]
+   
+    from sklearn.model_selection import train_test_split #split data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    from sklearn.preprocessing import StandardScaler #scale features
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    y_pred = model.predict(X_test_scaled) #predict using the loaded model
+
+
+    # Metrics: MAE, RMSE, R²
+    from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+    import numpy as np
+
+    mae = mean_absolute_error(y_test, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+    r2 = r2_score(y_test, y_pred)
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("📏 MAE (AQI pts)", f"{mae:.1f}")
+    with col2:
+        st.metric("📉 RMSE", f"{rmse:.1f}")
+    with col3:
+        st.metric("📊 R²", f"{r2:.3f}")
+
+    st.caption("MAE shows typical error size. RMSE penalises large errors. R² shows variance explained.")
+
+    # Actual vs Predicted plot
+    st.subheader("🎯 Actual vs Predicted AQI")
+
+    fig = plt.figure(figsize=(8, 5))
+    plt.scatter(y_test, y_pred, alpha=0.4, color='orchid')
+    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+    plt.xlabel("Actual AQI")
+    plt.ylabel("Predicted AQI")
+    plt.title("Actual vs Predicted AQI")
+    plt.grid(True, alpha=0.3)
+    st.pyplot(fig)
+
+    
+    # Residual diagnostics
+    st.subheader("🧪 Residual Diagnostics")
+
+    residuals = y_test - y_pred
+
+    # residuals vs predicted
+    fig = plt.figure(figsize=(8, 5))
+    plt.scatter(y_pred, residuals, alpha=0.4, color='orchid')
+    plt.axhline(0, color='red', linestyle='--')
+    plt.xlabel("Predicted AQI")
+    plt.ylabel("Residuals (Error)")
+    plt.title("Residuals vs Predicted AQI")
+    plt.grid(True, alpha=0.3)
+    st.pyplot(fig)
+
+    # residual distribution
+    fig = plt.figure(figsize=(8, 5))
+    sns.histplot(residuals, kde=True, color="purple")
+    plt.xlabel("Prediction Error")
+    plt.title("Distribution of Residuals")
+    plt.grid(True, alpha=0.3)
+    st.pyplot(fig)
+
+    # interpretation
+    st.markdown("""
+### 🧠 Interpretation
+
+- Residuals are mostly centred around **0**, suggesting no major systematic bias.
+- Errors tend to increase at **higher AQI levels**, meaning extreme pollution events are harder to predict.
+- This is expected because weather and regional transport variables are not included.
+""")
 
 #  predictions page
 if page == '🔮 AQI Prediction':
@@ -245,4 +320,3 @@ st.sidebar.info('🛠️ **Built with:** Python, Streamlit, Pandas, Matplotlib')
 st.sidebar.info('🎯 **Purpose:** Academic project - Air Quality Analysis')
 
 st.sidebar.success("✅ Model loaded successfully")
-
