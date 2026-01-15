@@ -172,8 +172,8 @@ for index, row in location_data.iterrows():
             icon=folium.Icon(color=colors[index % len(colors)])
         ).add_to(m)
 
-    st_folium(m, width=700, height=500)
-    st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
+st_folium(m, width=700, height=500)
+st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
 
 
     # 7. Top 10 most polluted cities
