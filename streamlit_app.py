@@ -1,6 +1,3 @@
-# Make the Streamlit app file - this creates air_quality_app.py
-%%writefile air_quality_app.py
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
