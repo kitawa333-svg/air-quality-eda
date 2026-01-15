@@ -161,7 +161,7 @@ location_data = pd.DataFrame({
         86.3500,76.2673,88.3639,80.9462,72.8777,85.1376,91.8933,85.2330,
         76.9366,83.2185]})
 
-    m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
+m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
 
     colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
 
