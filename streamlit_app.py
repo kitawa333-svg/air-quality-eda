@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 with open("models/model.pkl", "rb") as f:model = pickle.load(f) #loads trained ML model
 
 # Load cleaned data
-df_clean = pd.read_csv('/content/drive/MyDrive/Indian air quality/cleaned_air_quality.csv')
+df_clean = pd.read_csv("data/cleaned_air_quality.csv")
 
 # Convert Date column to datetime (MANDATORY for .dt and .strftime)
 df_clean['Date'] = pd.to_datetime(df_clean['Date'])
