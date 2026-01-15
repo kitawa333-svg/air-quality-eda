@@ -118,66 +118,66 @@ if page == '📊 Exploratory Analysis':
         worst_day = city_data.loc[city_data['AQI'].idxmax(), 'Date']
         st.metric("🔥 Worst AQI Day", f"{worst_aqi:.0f}", f"on {worst_day.strftime('%d %b %Y')}")
 
-    # 4. Monthly trend for selected city
-    st.subheader('📅 Seasonal Pattern')
-    fig = plt.figure(figsize=(10, 4))
-    city_data['Month'] = city_data['Date'].dt.month
-    monthly = city_data.groupby('Month')['AQI'].mean()
-    plt.plot(monthly.index, monthly.values, color='mediumvioletred', marker='o', linewidth=2)
-    plt.xlabel('Month (1=Jan, 12=Dec)')
-    plt.ylabel('Average AQI')
-    plt.title(f'Seasonal Pattern in {selected_city} 📈')
-    plt.xticks(range(1, 13))
-    plt.grid(True, alpha=0.3)
-    st.pyplot(fig)
-    st.caption('📌 Winter months typically show worse air quality due to temperature inversions')
-
-    # 5. Correlation heatmap
-    st.subheader('🔥 Correlation Heatmap')
-
-    # Calculate correlation matrix
-    corr_matrix = df_clean[['PM2.5', 'PM10', 'NO2', 'CO', 'SO2', 'O3', 'AQI']].corr()
-
-    fig = plt.figure(figsize=(10, 8))
-    sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='RdPu', center=0)
-    plt.title('Pollutant Correlations with AQI 🔗')
-    st.pyplot(fig)
-    st.caption('📌 Red cells show strong positive correlations, blue shows negative')
-
-    # 6. Spatial distribution map
-    st.subheader('🗺️ Spatial Distribution of Cities')
- #city coordinates table (used for the Folium map) ---
-location_data = pd.DataFrame({
-    "location": ["Ahmedabad","Aizawl","Amaravati","Amritsar","Bengaluru","Bhopal","Brajrajnagar","Chandigarh",
-        "Chennai","Coimbatore","Delhi","Ernakulam","Gurugram","Guwahati","Hyderabad","Jaipur",
-        "Jorapokhar","Kochi","Kolkata","Lucknow","Mumbai","Patna","Shillong","Talcher",
-        "Thiruvananthapuram","Visakhapatnam"],
-    "lat": [23.0225,23.7271,16.5062,31.6340,12.9716,23.2599,21.8554,30.7333,
-        13.0827,11.0168,28.7041,9.9816,28.4595,26.1445,17.3850,26.9124,
-        23.7500,9.9312,22.5726,26.8467,19.0760,25.5941,25.5788,20.9494,
-        8.5241,17.6868],
-    "lon": [72.5714,92.7176,80.6480,74.8723,77.5946,77.4126,83.9092,76.7794,
-        80.2707,76.9558,77.1025,76.2999,77.0266,91.7362,78.4867,75.7873,
-        86.3500,76.2673,88.3639,80.9462,72.8777,85.1376,91.8933,85.2330,
-        76.9366,83.2185]})
-
-m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
-
-colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
-
-for index, row in location_data.iterrows():
-        folium.Marker(
-            [float(row['lat']), float(row['lon'])],
-            tooltip=row['location'],
-            icon=folium.Icon(color=colors[index % len(colors)])
-        ).add_to(m)
-
-st_folium(m, width=700, height=500)
-st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
-
-
-    # 7. Top 10 most polluted cities
-    st.subheader('🏆 Top 10 Most Polluted Cities')
+        # 4. Monthly trend for selected city
+        st.subheader('📅 Seasonal Pattern')
+        fig = plt.figure(figsize=(10, 4))
+        city_data['Month'] = city_data['Date'].dt.month
+        monthly = city_data.groupby('Month')['AQI'].mean()
+        plt.plot(monthly.index, monthly.values, color='mediumvioletred', marker='o', linewidth=2)
+        plt.xlabel('Month (1=Jan, 12=Dec)')
+        plt.ylabel('Average AQI')
+        plt.title(f'Seasonal Pattern in {selected_city} 📈')
+        plt.xticks(range(1, 13))
+        plt.grid(True, alpha=0.3)
+        st.pyplot(fig)
+        st.caption('📌 Winter months typically show worse air quality due to temperature inversions')
+    
+        # 5. Correlation heatmap
+        st.subheader('🔥 Correlation Heatmap')
+    
+        # Calculate correlation matrix
+        corr_matrix = df_clean[['PM2.5', 'PM10', 'NO2', 'CO', 'SO2', 'O3', 'AQI']].corr()
+    
+        fig = plt.figure(figsize=(10, 8))
+        sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='RdPu', center=0)
+        plt.title('Pollutant Correlations with AQI 🔗')
+        st.pyplot(fig)
+        st.caption('📌 Red cells show strong positive correlations, blue shows negative')
+    
+        # 6. Spatial distribution map
+        st.subheader('🗺️ Spatial Distribution of Cities')
+     #city coordinates table (used for the Folium map) ---
+    location_data = pd.DataFrame({
+        "location": ["Ahmedabad","Aizawl","Amaravati","Amritsar","Bengaluru","Bhopal","Brajrajnagar","Chandigarh",
+            "Chennai","Coimbatore","Delhi","Ernakulam","Gurugram","Guwahati","Hyderabad","Jaipur",
+            "Jorapokhar","Kochi","Kolkata","Lucknow","Mumbai","Patna","Shillong","Talcher",
+            "Thiruvananthapuram","Visakhapatnam"],
+        "lat": [23.0225,23.7271,16.5062,31.6340,12.9716,23.2599,21.8554,30.7333,
+            13.0827,11.0168,28.7041,9.9816,28.4595,26.1445,17.3850,26.9124,
+            23.7500,9.9312,22.5726,26.8467,19.0760,25.5941,25.5788,20.9494,
+            8.5241,17.6868],
+        "lon": [72.5714,92.7176,80.6480,74.8723,77.5946,77.4126,83.9092,76.7794,
+            80.2707,76.9558,77.1025,76.2999,77.0266,91.7362,78.4867,75.7873,
+            86.3500,76.2673,88.3639,80.9462,72.8777,85.1376,91.8933,85.2330,
+            76.9366,83.2185]})
+    
+    m = folium.Map(location=[22.9734, 78.6569], zoom_start=5)
+    
+    colors = ['pink', 'lightred', 'purple', 'darkpurple', 'red', 'darkred', 'gray', 'black']
+    
+    for index, row in location_data.iterrows():
+            folium.Marker(
+                [float(row['lat']), float(row['lon'])],
+                tooltip=row['location'],
+                icon=folium.Icon(color=colors[index % len(colors)])
+            ).add_to(m)
+    
+    st_folium(m, width=700, height=500)
+    st.caption('📍 Interactive map showing the geographic distribution of Indian cities in the dataset')
+    
+    
+        # 7. Top 10 most polluted cities
+        st.subheader('🏆 Top 10 Most Polluted Cities')
 
     # Calculate city averages
     city_avg_aqi = df_clean.groupby('City')['AQI'].mean().sort_values(ascending=False)
