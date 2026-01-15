@@ -31,7 +31,7 @@ except:
     model.fit(X_dummy, y_dummy)
 
 #setting the title of the application
-st.title('🇮🇳 Indian Air Quality Analysis Dashboard 🌫️')
+st.title('Indian Air Quality Analysis Dashboard 🌫️')
 st.write('Explore air quality patterns across 26 Indian cities (2015-2019) 📊')
 
 # Sidebar navigation
