@@ -22,10 +22,24 @@ It combines **exploratory data analysis (EDA)** with an **interactive Streamlit 
 - Correlation analysis using a heatmap  
 
 ## 🔮 AQI Prediction
-A regression-based machine learning model was developed to **predict AQI values** using pollutant concentrations, demonstrating the impact of key pollutants on air quality.
+A **multiple linear regression** model was developed to predict AQI values using key pollutants  
+(**PM2.5, PM10, NO2, CO**), demonstrating the strong influence of particulate matter on air quality.
 
-## 🖥️ How to Run the App
+The trained model is saved and reused in the Streamlit dashboard.
+
+## 🖥️ Streamlit Dashboard
+The interactive dashboard allows users to:
+
+- Explore the dataset
+- View AQI distributions and trends
+- Compare pollution levels across cities
+- Visualise patterns and relationships
+- Interact with the trained prediction model
+
+The app is implemented in:
+
 ```bash
+streamlit_app.py
 pip install -r requirements.txt
 streamlit run air_quality_app.py
 
